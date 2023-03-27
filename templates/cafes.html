@@ -1,0 +1,62 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+{{ super() }}
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<!--	FONT AWESOME V6.1.1-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+{% endblock %}
+
+
+{% block title %}All Cafes{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h1>All Cafes</h1>
+
+	  <table class="table">
+		  <tr>
+			  <th></th>
+			  <th></th>
+			  <th>No of Seats</th>
+			  <th>Coffee Price</th>
+			  <th>Action</th>
+		  </tr>
+
+	  {% for row in cafes %}
+	  <tr>
+		  <td><img style="width:300px;height:200px;" src="{{ row.img_url }}" alt=""></td>
+		  <td>
+			  <h3>{{ row.name }}</h3>
+			  <h4>{{ row.location }}</h4>
+			  <a href="{{ row.map_url }}">Google Map URL</a>
+			  <h4>
+				  {% if row.can_take_calls %} <i class="fa-solid fa-phone fa-lg"></i> {% endif %}
+				  {% if row.has_wifi %} <i class="fa-solid fa-wifi fa-lg"></i> {% endif %}
+				  {% if row.has_sockets %} <i class="fa-solid fa-plug fa-lg"></i> {% endif %}
+				  {% if row.has_toilet %} <i class="fa-solid fa-toilet-paper fa-lg"></i> {% endif %}
+			  </h4>
+
+		  </td>
+		  <td>{{ row.seats }}</td>
+		  <td>{{ row.coffee_price }}</td>
+		  <td><a style="color: red;" href="{{ url_for('delete_cafe', cafe_id=row.id) }}">Delete</a></td>
+	  </tr>
+	  {% endfor %}
+  	  </table>
+
+		<p><a href="{{ url_for('add_cafe') }}">Add new cafe</a></p>
+		<p><a href="{{ url_for('home') }}">Return to index page</a></p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
